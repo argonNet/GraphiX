@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.argonnet.View.MainViewController">
+   <right>
+      <AnchorPane fx:id="rightPane" prefHeight="740.0" prefWidth="247.0" style="-fx-background-color: darkgrey;" BorderPane.alignment="CENTER">
+         <children>
+            <Accordion layoutX="32.0" layoutY="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <panes>
+                <TitledPane animated="false" text="Graph Generation">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="85.0" prefWidth="200.0">
+                           <children>
+                              <Spinner fx:id="fieldVertexNumber" layoutX="104.0" layoutY="7.0" prefHeight="25.0" prefWidth="81.0" />
+                              <Button fx:id="buttonGenerateGraph" layoutX="34.0" layoutY="45.0" mnemonicParsing="false" onAction="#generateGraphOnClick" prefHeight="27.0" prefWidth="110.0" text="Generate" />
+                              <Label layoutX="10.0" layoutY="12.0" text="Vertex count" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" text="Graph Calculation">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ComboBox fx:id="howComboBox" layoutX="75.0" layoutY="50.0" prefWidth="150.0" />
+                              <Button fx:id="buttonCalc" layoutX="85.0" layoutY="97.0" mnemonicParsing="false" onAction="#calcOnClick" text="Calculate" />
+                              <ComboBox fx:id="whatComboBox" layoutX="75.0" layoutY="8.0" prefWidth="150.0" />
+                              <Label layoutX="5.0" layoutY="13.0" text="What :" />
+                              <Label layoutX="6.0" layoutY="55.0" text="How : " />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
+         </children>
+      </AnchorPane>
+   </right>
+   <center>
+      <Pane fx:id="canvasPane" prefHeight="565.0" prefWidth="355.0" BorderPane.alignment="CENTER">
+         <children>
+            <Canvas fx:id="drawZone" height="375.0" style="-fx-background-color: red;" width="394.0" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
