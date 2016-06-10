@@ -32,6 +32,7 @@ public class Kruskal implements IMinimalTree {
             resultObj.setEdge(edges.get(i).getTo(),edges.get(i).getFrom(),edges.get(i).getWeight());
             addedEdges++;
 
+            //If we found a cycle we have to remove the edge
             if(resultObj.containCycle()){
                 resultObj.setEdge(edges.get(i).getFrom(),edges.get(i).getTo(),0);
                 resultObj.setEdge(edges.get(i).getTo(),edges.get(i).getFrom(),0);

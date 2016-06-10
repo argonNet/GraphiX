@@ -4,9 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
+
+/**
+ * Application to solve graph problem
+ */
+//TODO - Argon - 10.06.2016 : Use the user number in the algorythm and do the minus 1 in the GraphMatrix class.
 public class GraphiXApp extends Application {
 
     public static void main(String[] args) {

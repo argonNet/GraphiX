@@ -18,6 +18,8 @@ public class VertexView {
      */
     public VertexView(int number){
         this.setNumber(number);
+        this.setX(50);
+        this.setY(50);
     }
 
     public int getNumber() {

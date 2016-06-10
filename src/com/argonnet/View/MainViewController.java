@@ -30,6 +30,9 @@ public class MainViewController implements Initializable{
     @FXML private Button buttonGenerateGraph;
 
     @FXML private Spinner<Integer> fieldVertexNumber;
+    @FXML private Spinner<Integer> fieldVertexFrom;
+    @FXML private Spinner<Integer> fieldVertexTo;
+    @FXML private Spinner<Integer> fieldVertexWeight;
     @FXML private ComboBox<Constants.PROBLEM_LIST>  whatComboBox;
     @FXML private ComboBox<Constants.ALGORITHM>  howComboBox;
 
@@ -56,7 +59,7 @@ public class MainViewController implements Initializable{
             }
         });
 
-        //Mettre à jour la liste des algorythme disponible en fonction du problème sélectionné
+        //Update algorithm list in function of the problem selected
         whatComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             howComboBox.getItems().clear();
             howComboBox.getItems().addAll(Constants.problemAndSoluctionList.get(whatComboBox.getSelectionModel().getSelectedItem()));
@@ -86,6 +89,16 @@ public class MainViewController implements Initializable{
     }
 
     /**
+     * Initialization of the edge creation
+     */
+    private void setEdgeFromToSpinnerVal(){
+        if(currentGraph != null){
+            fieldVertexFrom.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, currentGraph.getVertexCount()));
+            fieldVertexTo.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, currentGraph.getVertexCount()));
+        }
+    }
+
+    /**
      * reDraw the current graph list
      */
     private void reDraw(){
@@ -93,7 +106,6 @@ public class MainViewController implements Initializable{
             currentGraphDrawer.draw();
         }
     }
-
 
     /**
      * Generating a new random graph
@@ -107,6 +119,8 @@ public class MainViewController implements Initializable{
         currentGraphDrawer.setCurrentGraph(currentGraph);
         currentGraphDrawer.setHighlightedGraph(highlightGraph);
         reDraw();
+
+        setEdgeFromToSpinnerVal();
     }
 
     /**
@@ -130,16 +144,40 @@ public class MainViewController implements Initializable{
             default :
                 throw new UnknownWhatException();
         }
-        
+
         currentGraphDrawer.setHighlightedGraph(highlightGraph);
         reDraw();
+    }
+
+    /**
+     * Add a vertex to the current graph
+     */
+    @FXML private void addVertexOnClick(){
+        if(currentGraph != null){
+            highlightGraph = null;
+            currentGraphDrawer.setHighlightedGraph(highlightGraph);
+            currentGraph.addVertex();
+            currentGraphDrawer.draw();
+
+            setEdgeFromToSpinnerVal();
+        }
+    }
+
+    /**
+     * Add an edge to the graph
+     */
+    @FXML private void addEdgeOnClick(){
+        if(currentGraph != null){
+            currentGraph.setEdge(fieldVertexFrom.getValue()  - 1,fieldVertexTo.getValue() - 1,fieldVertexWeight.getValue());
+            currentGraphDrawer.draw();
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Init the spinner control
-        SpinnerValueFactory spinneValueFact = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 6);
-        fieldVertexNumber.setValueFactory(spinneValueFact);
+        fieldVertexNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 6));
+        fieldVertexWeight.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE));
 
         //Init list of problem and solution
         setWhatList();

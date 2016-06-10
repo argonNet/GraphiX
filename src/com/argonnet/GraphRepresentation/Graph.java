@@ -13,22 +13,6 @@ public class Graph {
     private ArrayList<Edge> edges;
     private ArrayList<VertexView> vertexViews;
 
-    /**
-     * Generation of the list of edges
-     */
-    private void generateOrderedEdgeList(){
-
-        edges = new ArrayList<Edge>();
-
-        for(int i = 0; i < matrix.getVertexCount(); i++) {
-            for (int j = 0; j <= i; j++) {
-                if(matrix.getEdge(i,j) != 0){
-                    edges.add(new Edge(i,j,matrix.getEdge(i,j)));
-                }
-
-            }
-        }
-    }
 
     /**
      * Constructor with the number of vertexes in the graph.
@@ -44,6 +28,32 @@ public class Graph {
             this.vertexViews.add(new VertexView(i + 1));
         }
     }
+
+    /**
+     * Generation of the list of edges
+     */
+    private void generateOrderedEdgeList(){
+
+        edges = new ArrayList<Edge>();
+
+        for(int i = 0; i < matrix.getVertexCount(); i++) {
+            for (int j = 0; j <= i; j++) {
+                if(matrix.getEdge(i,j) != 0){
+                    edges.add(new Edge(i,j,matrix.getEdge(i,j)));
+                }
+            }
+        }
+    }
+
+    /**
+     * Add a new vertex to the current graph
+     */
+    public void addVertex(){
+        matrix.addVertex();
+        this.vertexViews.add(new VertexView(matrix.getVertexCount()));
+    }
+
+
 
     /**
      * Automatic and random fill of the matrix.
@@ -67,10 +77,33 @@ public class Graph {
         generateOrderedEdgeList();
     }
 
+    /**
+     * Define an edge in the graph
+     * @param from vertex start
+     * @param to vertex end
+     * @param weight weight of the edge
+     */
+    public void setEdge(int from, int to, int weight){
+        this.matrix.setEdge(from,to,weight);
 
+        boolean edgeAlreadyInList = false;
+        //Searching the edge in the list and update it if needed
+        for (Edge edge : edges) {
+            if(edge.getFrom() == from && edge.getTo() == to){
+                edge.setWeight(weight);
+                edgeAlreadyInList = true;
+                break;
+            }
+        }
 
-    public int getEdge(int x, int y){
-        return this.matrix.getEdge(x,y);
+        //If edge is not in the list we create it
+        if(!edgeAlreadyInList){
+            edges.add(new Edge(from,to,weight));
+        }
+    }
+
+    public int getEdge(int from, int to){
+        return this.matrix.getEdge(from,to);
     }
 
     public int getVertexCount() {

@@ -1,5 +1,7 @@
 package com.argonnet.GraphRepresentation;
 
+import java.util.Arrays;
+
 /**
  * Base class to represente a Graph as a matrix
  */
@@ -16,7 +18,6 @@ public class GraphMatrix {
         this.vertexCount = nbVertex;
         this.setMatrix(new int[nbVertex][nbVertex]);
     }
-
 
     /**
      * Method that use a DFS path to check if there is an existing cycle
@@ -57,6 +58,27 @@ public class GraphMatrix {
         return checkIfContainCycle(explorationStatus,0);
     }
 
+    /**
+     * Adding a vertex in the graph.
+     */
+    public void addVertex(){
+
+        //First we add a cell to each existing line...
+        for(int i = 0; i < this.getVertexCount();i++) {
+            matrix[i] = Arrays.copyOf(matrix[i], this.getVertexCount() + 1);
+            matrix[i][this.getVertexCount()] = 0;
+        }
+
+        //Then we add a new line (our matrix should always be a square
+        matrix = Arrays.copyOf(matrix, this.getVertexCount() + 1);
+        matrix[this.getVertexCount() - 1] = new int[this.getVertexCount()];
+        for(int i = 0; i < this.getVertexCount();i++) {
+            matrix[this.getVertexCount() - 1][i] = 0;
+        }
+
+
+    }
+
     public int[][] getMatrix() {
         return matrix;
     }
@@ -65,19 +87,17 @@ public class GraphMatrix {
         this.matrix = matrix;
     }
 
-    public int getEdge(int x, int y){
-        return this.matrix[x][y];
+    public int getEdge(int from, int to){
+        return this.matrix[from][to];
     }
 
-    public  void setEdge(int x, int y, int edgeWeight){
-        this.matrix[x][y] = edgeWeight;
+    public  void setEdge(int from, int to, int edgeWeight){
+        this.matrix[from][to] = edgeWeight;
+        this.matrix[to][from] = edgeWeight;
     }
 
     public int getVertexCount() {
-        return vertexCount;
+        return matrix.length;
     }
 
-    public void setVertexCount(int vertexCount) {
-        this.vertexCount = vertexCount;
-    }
 }
