@@ -7,7 +7,13 @@ public class Edge {
 
     private int from;
     private int to;
-    private int Weight;
+    private int weight;
+
+    public Edge(int from, int to, int weight){
+        setFrom(from);
+        setTo(to);
+        setWeight(weight);
+    }
 
     public int getTo() {
         return to;
@@ -26,10 +32,10 @@ public class Edge {
     }
 
     public int getWeight() {
-        return Weight;
+        return weight;
     }
 
     public void setWeight(int weight) {
-        Weight = weight;
+        this.weight = weight;
     }
 }

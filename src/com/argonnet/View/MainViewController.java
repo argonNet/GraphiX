@@ -1,6 +1,7 @@
 package com.argonnet.View;
 
 import com.argonnet.*;
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -89,8 +90,10 @@ public class MainViewController implements Initializable{
     }
 
     @FXML private void calcOnClick(){
+        //System.out.println(currentGraph.getMatrix().containCycle());
 
-        highlightGraph = (new Kruskal()).CalcMinimalTree(currentGraph,1);
+        highlightGraph = (new Kruskal()).CalcMinimalTree(currentGraph,0);
+        reDraw();
     }
 
     @Override
