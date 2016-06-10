@@ -130,7 +130,8 @@ public class MainViewController implements Initializable{
             default :
                 throw new UnknownWhatException();
         }
-
+        
+        currentGraphDrawer.setHighlightedGraph(highlightGraph);
         reDraw();
     }
 

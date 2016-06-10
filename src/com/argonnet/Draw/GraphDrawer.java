@@ -6,7 +6,6 @@ import com.argonnet.Utils.Constants;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -24,8 +23,12 @@ public class GraphDrawer {
     private final static int LABEL_WIDTH = 30;
     private final static int LABEL_HEIGHT = 30;
 
+
+
     private Canvas canvas;
     private GraphicsContext gc;
+
+    private GraphMotionManager motionManager;
 
     private Graph currentGraph;
     private GraphMatrix highlightedGraph;
@@ -38,9 +41,7 @@ public class GraphDrawer {
         this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
 
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-            this.moveVertexWithMouse(e.getX(),e.getY());
-        } );
+        motionManager = new GraphMotionManager(this);
 
         //Define text default params for this graphics context
         gc.setTextAlign(TextAlignment.CENTER);
@@ -48,11 +49,11 @@ public class GraphDrawer {
     }
 
 
-    private double getRatioX(){
+    public double getRatioX(){
         return gc.getCanvas().getWidth() / Constants.GRAPH_REF_WIDTH;
     }
 
-    private double getRatioY(){
+    public double getRatioY(){
         return gc.getCanvas().getHeight() / Constants.GRAPH_REF_HEIGHT;
     }
 
@@ -166,25 +167,6 @@ public class GraphDrawer {
     }
 
 
-    public void moveVertexWithMouse(double x, double y){
-
-        for(int i = 0; i< currentGraph.getVertexCount();i++){
-
-            double distanceWithCenter = Math.sqrt(
-                    Math.pow(currentGraph.getVertexView(i).getX() * getRatioX() - x,2) +
-                            Math.pow(currentGraph.getVertexView(i).getY() * getRatioY() - y,2)
-            );
-
-            if(distanceWithCenter <= GraphDrawer.VERTEX_RADIUS)  {
-                currentGraph.getVertexView(i).setX(x / getRatioX()) ;
-                currentGraph.getVertexView(i).setY(y / getRatioY());
-                draw();
-
-                break; //Optimization of the treatment when we found a vertex we move leave
-            }
-        }
-    }
-
 
     public Graph getCurrentGraph() {
         return currentGraph;
@@ -200,6 +182,10 @@ public class GraphDrawer {
 
     public void setCurrentGraph(Graph currentGraph) {
         this.currentGraph = currentGraph;
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
     }
 
 }
