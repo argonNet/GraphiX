@@ -1,13 +1,17 @@
 package com.argonnet.View;
 
-import com.argonnet.*;
-import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
-import javafx.event.EventHandler;
+import com.argonnet.Algorythm.Kruskal;
+import com.argonnet.Draw.GraphDrawer;
+import com.argonnet.Draw.GraphShapeFactory;
+import com.argonnet.Exception.UnknownHowException;
+import com.argonnet.Exception.UnknownWhatException;
+import com.argonnet.GraphRepresentation.Graph;
+import com.argonnet.GraphRepresentation.GraphMatrix;
+import com.argonnet.Utils.Constants;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
@@ -27,12 +31,15 @@ public class MainViewController implements Initializable{
 
     @FXML private Spinner<Integer> fieldVertexNumber;
     @FXML private ComboBox<Constants.PROBLEM_LIST>  whatComboBox;
-    @FXML private ComboBox<Constants.ALGORYTHM>  howComboBox;
+    @FXML private ComboBox<Constants.ALGORITHM>  howComboBox;
 
     private GraphMatrix highlightGraph;
     private Graph currentGraph;
     private GraphDrawer currentGraphDrawer;
 
+    /**
+     * Initialize the list of problem that could be solved
+     */
     private void setWhatList(){
 
         whatComboBox.setCellFactory(new Callback<ListView<Constants.PROBLEM_LIST>, ListCell<Constants.PROBLEM_LIST>>() {
@@ -58,14 +65,17 @@ public class MainViewController implements Initializable{
         whatComboBox.getItems().addAll(Constants.problemListDef.keySet());
     }
 
+    /**
+     * Initialize the list of the algorithm to find the solution to a problem
+     */
     private void setHowList(){
 
-        howComboBox.setCellFactory(new Callback<ListView<Constants.ALGORYTHM>, ListCell<Constants.ALGORYTHM>>() {
+        howComboBox.setCellFactory(new Callback<ListView<Constants.ALGORITHM>, ListCell<Constants.ALGORITHM>>() {
             @Override
-            public ListCell<Constants.ALGORYTHM> call(ListView<Constants.ALGORYTHM> param) {
-                return new ListCell<Constants.ALGORYTHM>(){
+            public ListCell<Constants.ALGORITHM> call(ListView<Constants.ALGORITHM> param) {
+                return new ListCell<Constants.ALGORITHM>(){
                     @Override
-                    protected void updateItem(Constants.ALGORYTHM item, boolean empty) {
+                    protected void updateItem(Constants.ALGORITHM item, boolean empty) {
                         super.updateItem(item,empty);
 
                         setText(Constants.algoListDef.get(item));
@@ -73,26 +83,54 @@ public class MainViewController implements Initializable{
                 };
             }
         });
-
     }
 
+    /**
+     * reDraw the current graph list
+     */
     private void reDraw(){
         if(currentGraph != null){
-            currentGraphDrawer.drawGraph(currentGraph,highlightGraph);
+            currentGraphDrawer.draw();
         }
     }
 
+
+    /**
+     * Generating a new random graph
+     */
     @FXML private void generateGraphOnClick(){
+        highlightGraph = null;
         currentGraph = new Graph(fieldVertexNumber.getValue());
         currentGraph.generateRandomGraph(10);
         GraphShapeFactory.setVertexPosition(currentGraph);
+
+        currentGraphDrawer.setCurrentGraph(currentGraph);
+        currentGraphDrawer.setHighlightedGraph(highlightGraph);
         reDraw();
     }
 
-    @FXML private void calcOnClick(){
-        //System.out.println(currentGraph.getMatrix().containCycle());
+    /**
+     * Calculating a solution to a problem
+     */
+    @FXML private void calcOnClick() throws Exception{
 
-        highlightGraph = (new Kruskal()).CalcMinimalTree(currentGraph,0);
+        switch (whatComboBox.getSelectionModel().getSelectedItem()){
+            case MinimalTree:
+
+                switch(howComboBox.getSelectionModel().getSelectedItem()){
+                    case Kruskal:
+                        highlightGraph = (new Kruskal()).CalcMinimalTree(currentGraph,0);
+                        break;
+                    default :
+                        throw new UnknownHowException();
+                }
+
+
+                break;
+            default :
+                throw new UnknownWhatException();
+        }
+
         reDraw();
     }
 
@@ -110,19 +148,10 @@ public class MainViewController implements Initializable{
         drawZone.widthProperty().bind(canvasPane.widthProperty());
         drawZone.heightProperty().bind(canvasPane.heightProperty());
 
-        drawZone.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                for(int i = 0; i < currentGraph.getVertexCount();i++){
-                   // currentGraph.getVertexView()
-                }
-            }
-        });
-        currentGraphDrawer = new GraphDrawer(drawZone.getGraphicsContext2D());
+        currentGraphDrawer = new GraphDrawer(drawZone);
 
         drawZone.widthProperty().addListener(observable -> reDraw());
         drawZone.heightProperty().addListener(observable -> reDraw());
-
     }
 
 }

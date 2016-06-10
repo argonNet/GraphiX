@@ -1,4 +1,7 @@
-package com.argonnet;
+package com.argonnet.Algorythm;
+
+import com.argonnet.GraphRepresentation.Graph;
+import com.argonnet.GraphRepresentation.GraphMatrix;
 
 /**
  * Interface to implement for all minimal tree algorythm

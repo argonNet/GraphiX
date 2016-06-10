@@ -1,5 +1,8 @@
 
-package com.argonnet;
+package com.argonnet.Draw;
+
+import com.argonnet.GraphRepresentation.Graph;
+import com.argonnet.Utils.Constants;
 
 /**
  * Classe that provide the shape for the graphe (vertexes position)

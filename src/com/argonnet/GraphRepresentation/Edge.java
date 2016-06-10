@@ -1,4 +1,4 @@
-package com.argonnet;
+package com.argonnet.GraphRepresentation;
 
 /**
  * Representation on an edge
