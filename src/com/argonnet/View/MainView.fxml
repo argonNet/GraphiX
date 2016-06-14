@@ -32,7 +32,7 @@
                                     </AnchorPane>
                                  </center>
                                  <top>
-                                    <Pane  prefHeight="28.0" prefWidth="265.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+                                    <Pane prefHeight="28.0" prefWidth="265.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
                                        <children>
                                           <Label layoutX="31.0" layoutY="6.0" text="Random graph generation" textFill="WHITE" />
                                        </children>
@@ -89,18 +89,18 @@
 								<center>
 									<AnchorPane prefHeight="78.0" prefWidth="220.0" BorderPane.alignment="CENTER">
 										<children>
-											<ComboBox fx:id="whatComboBox" layoutX="76.0" layoutY="14.0" prefWidth="150.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="14.0" />
-											<ComboBox fx:id="howComboBox" layoutX="75.0" layoutY="50.0" prefWidth="150.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0"/>
-											<Button fx:id="buttonCalc" layoutX="17.0" layoutY="90.0" mnemonicParsing="false" onAction="#calcOnClick" prefHeight="27.0" prefWidth="191.0" text="Calculate"/>
+											<ComboBox fx:id="whatComboBox" layoutX="56.0" layoutY="10.0" prefHeight="27.0" prefWidth="140.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0" />
+											<ComboBox fx:id="howComboBox" layoutX="75.0" layoutY="50.0" prefHeight="27.0" prefWidth="140.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
+											<Button fx:id="buttonCalc" layoutX="17.0" layoutY="90.0" mnemonicParsing="false" onAction="#calcOnClick" prefHeight="27.0" prefWidth="191.0" text="Calculate" />
 											<Label layoutX="6.0" layoutY="15.0" text="What :" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
-											<Label layoutX="6.0" layoutY="55.0" text="How : " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="55.0"/>
+											<Label layoutX="6.0" layoutY="55.0" text="How : " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="55.0" />
 										</children>
 									</AnchorPane>
 								</center>
 								<top>
 									<Pane prefHeight="28.0" prefWidth="265.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
 										<children>
-											<Label layoutX="31.0" layoutY="6.0" text="Choose problem and algorithm" textFill="WHITE" />
+											<Label layoutX="16.0" layoutY="6.0" text="Choose problem and algorithm" textFill="WHITE" />
 										</children>
 									</Pane>
 								</top>
@@ -122,4 +122,11 @@
          </children>
       </Pane>
    </center>
+   <bottom>
+      <AnchorPane prefHeight="33.0" prefWidth="919.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="labelCycleStatus" layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="208.0" text="-" />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>

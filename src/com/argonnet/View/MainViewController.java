@@ -36,6 +36,8 @@ public class MainViewController implements Initializable{
     @FXML private ComboBox<Constants.PROBLEM_LIST>  whatComboBox;
     @FXML private ComboBox<Constants.ALGORITHM>  howComboBox;
 
+    @FXML private Label labelCycleStatus;
+
     private GraphMatrix highlightGraph;
     private Graph currentGraph;
     private GraphDrawer currentGraphDrawer;
@@ -108,6 +110,19 @@ public class MainViewController implements Initializable{
     }
 
     /**
+     * Display the current graph cycle status
+     */
+    private void setCurrentGraphCycleStatus(){
+        if(currentGraph == null){
+            labelCycleStatus.setText("No graph");
+        }else if(currentGraph.getMatrix().containCycle()){
+            labelCycleStatus.setText("Cycle detected");
+        }else{
+            labelCycleStatus.setText("No cycle detected");
+        }
+    }
+
+    /**
      * Generating a new random graph
      */
     @FXML private void generateGraphOnClick(){
@@ -121,6 +136,7 @@ public class MainViewController implements Initializable{
         reDraw();
 
         setEdgeFromToSpinnerVal();
+        setCurrentGraphCycleStatus();
     }
 
     /**
@@ -160,6 +176,7 @@ public class MainViewController implements Initializable{
             currentGraphDrawer.draw();
 
             setEdgeFromToSpinnerVal();
+            setCurrentGraphCycleStatus();
         }
     }
 
@@ -170,6 +187,7 @@ public class MainViewController implements Initializable{
         if(currentGraph != null){
             currentGraph.setEdge(fieldVertexFrom.getValue()  - 1,fieldVertexTo.getValue() - 1,fieldVertexWeight.getValue());
             currentGraphDrawer.draw();
+            setCurrentGraphCycleStatus();
         }
     }
 

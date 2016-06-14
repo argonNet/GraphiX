@@ -23,23 +23,23 @@ public class GraphMatrix {
      * @param vertex Vertex to explore
      * @return Return true if we find a cycle
      */
-    private boolean checkIfContainCycle(boolean explorationStatus[], int vertex){
+    private boolean dfsPathForCycleDetection(boolean explorationStatus[], int vertex){
         boolean result = false;
-
         explorationStatus[vertex] = true;
 
         //We have an no directed graph then we need only the half of the matrix
-        for(int i = vertex + 1; i < this.getVertexCount(); i++){
+        for(int i = vertex + 1; i < this.getVertexCount() && !result; i++){
 
             if( getMatrix()[vertex][i] != 0){ //Check the existence of an edge
                 if(!explorationStatus[i]) {
-                    result = checkIfContainCycle(explorationStatus, i);
+                    result = dfsPathForCycleDetection(explorationStatus, i);
                 }else {
-                    result = true;
+                    return true; //Cycle found we stop to search
                 }
             }
         }
 
+        //If we get there there isn't any cycle
         return result;
     }
 
@@ -48,12 +48,12 @@ public class GraphMatrix {
      * @return True if the graph contain cycle
      */
     public boolean containCycle(){
-        boolean explorationStatus[] = new boolean[vertexCount];
+        boolean explorationStatus[] = new boolean[this.getVertexCount()];
 
         //Initialize the exploration status as not explored (false)
         for(int i = 0; i < this.getVertexCount(); i++) explorationStatus[i] = false;
 
-        return checkIfContainCycle(explorationStatus,0);
+        return dfsPathForCycleDetection(explorationStatus,0);
     }
 
     /**

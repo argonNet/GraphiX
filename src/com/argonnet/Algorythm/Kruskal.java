@@ -29,13 +29,13 @@ public class Kruskal implements IMinimalTree {
         //We step when the number of edge added is equal to vertexCount - 1
         for(int i = 0; i < edges.size() && addedEdges < graph.getVertexCount() - 1; i++){
             resultObj.setEdge(edges.get(i).getFrom(),edges.get(i).getTo(),edges.get(i).getWeight());
-            resultObj.setEdge(edges.get(i).getTo(),edges.get(i).getFrom(),edges.get(i).getWeight());
+            //resultObj.setEdge(edges.get(i).getTo(),edges.get(i).getFrom(),edges.get(i).getWeight());
             addedEdges++;
 
             //If we found a cycle we have to remove the edge
             if(resultObj.containCycle()){
                 resultObj.setEdge(edges.get(i).getFrom(),edges.get(i).getTo(),0);
-                resultObj.setEdge(edges.get(i).getTo(),edges.get(i).getFrom(),0);
+                //resultObj.setEdge(edges.get(i).getTo(),edges.get(i).getFrom(),0);
                 addedEdges--;
             }
         }
