@@ -30,14 +30,14 @@ public class Graph {
     }
 
     /**
-     * Generation of the list of edges
+     * Generation of the list of edges (no-oriented edges)
      */
     private void generateOrderedEdgeList(){
 
         edges = new ArrayList<Edge>();
 
         for(int i = 0; i < matrix.getVertexCount(); i++) {
-            for (int j = 0; j <= i; j++) {
+            for (int j = 0; j <= i; j++) { //We take only the half part of the edges
                 if(matrix.getEdge(i,j) != 0){
                     edges.add(new Edge(i,j,matrix.getEdge(i,j)));
                 }
@@ -52,7 +52,6 @@ public class Graph {
         matrix.addVertex();
         this.vertexViews.add(new VertexView(matrix.getVertexCount()));
     }
-
 
 
     /**

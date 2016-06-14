@@ -8,14 +8,12 @@ import java.util.Arrays;
 public class GraphMatrix {
 
     private int matrix[][];
-    private int vertexCount;
 
     /**
      * Constructor of the Matrix
      * @param nbVertex vertex count in the Graph
      */
     public GraphMatrix(int nbVertex){
-        this.vertexCount = nbVertex;
         this.setMatrix(new int[nbVertex][nbVertex]);
     }
 
@@ -31,7 +29,7 @@ public class GraphMatrix {
         explorationStatus[vertex] = true;
 
         //We have an no directed graph then we need only the half of the matrix
-        for(int i = vertex + 1; i < vertexCount; i++){
+        for(int i = vertex + 1; i < this.getVertexCount(); i++){
 
             if( getMatrix()[vertex][i] != 0){ //Check the existence of an edge
                 if(!explorationStatus[i]) {
@@ -53,7 +51,7 @@ public class GraphMatrix {
         boolean explorationStatus[] = new boolean[vertexCount];
 
         //Initialize the exploration status as not explored (false)
-        for(int i = 0; i < vertexCount; i++) explorationStatus[i] = false;
+        for(int i = 0; i < this.getVertexCount(); i++) explorationStatus[i] = false;
 
         return checkIfContainCycle(explorationStatus,0);
     }
@@ -76,7 +74,6 @@ public class GraphMatrix {
             matrix[this.getVertexCount() - 1][i] = 0;
         }
 
-
     }
 
     public int[][] getMatrix() {
@@ -96,7 +93,11 @@ public class GraphMatrix {
         this.matrix[to][from] = edgeWeight;
     }
 
+	/**
+	 * Return the number of vertex in the current matrix
+	 */
     public int getVertexCount() {
+		//As we always have a square matrix, we only have to check the first dim.
         return matrix.length;
     }
 
