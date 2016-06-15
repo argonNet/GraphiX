@@ -41,7 +41,7 @@ public class MainViewController implements Initializable{
     @FXML private BorderPane paneShortestPathFromTo;
     @FXML private Spinner<Integer> fieldVertexShortestPathTo;
     @FXML private Spinner<Integer> fieldVertexShortestPathFrom;
-
+    @FXML private ToggleButton toggleDrawEdgeMode;
 
     @FXML private Label labelCycleStatus;
 
@@ -205,6 +205,28 @@ public class MainViewController implements Initializable{
             currentGraph.setEdge(fieldVertexFrom.getValue()  - 1,fieldVertexTo.getValue() - 1,fieldVertexWeight.getValue());
             currentGraphDrawer.draw();
             setCurrentGraphCycleStatus();
+        }
+    }
+
+    /**
+     * Remove an edge of the graph
+     */
+    @FXML private void removeEdgeOnClick(){
+        if(currentGraph != null){
+            currentGraph.setEdge(fieldVertexFrom.getValue()  - 1,fieldVertexTo.getValue() - 1,0);
+            currentGraphDrawer.draw();
+            setCurrentGraphCycleStatus();
+        }
+    }
+
+    /**
+     * Enable/Disable edge draw System
+     */
+    @FXML private  void drawEdgeModeButtonOnSwitch(){
+        if(toggleDrawEdgeMode.isSelected()){
+            currentGraphDrawer.EnableEdgeCreation();
+        }else{
+            currentGraphDrawer.DisableEdgeCreation();
         }
     }
 
