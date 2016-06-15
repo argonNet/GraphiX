@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.argonnet.View.MainViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.argonnet.View.MainViewController">
    <right>
       <AnchorPane fx:id="rightPane" prefHeight="740.0" prefWidth="247.0" style="-fx-background-color: darkgrey;" BorderPane.alignment="CENTER">
          <children>
@@ -105,7 +105,25 @@
 									</Pane>
 								</top>
 							</BorderPane>
-						   
+                           <BorderPane fx:id="paneShortestPathFromTo" layoutX="2" layoutY="180.0" prefHeight="120.0" prefWidth="223.0" style="-fx-border-color: darkgrey;" AnchorPane.leftAnchor="2.0">
+                              <center>
+                                 <AnchorPane prefHeight="220.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                       <Spinner fx:id="fieldVertexShortestPathFrom" layoutX="56.0" layoutY="10.0" prefHeight="27.0" prefWidth="140.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0" />
+                                       <Spinner fx:id="fieldVertexShortestPathTo" layoutX="75.0" layoutY="50.0" prefHeight="27.0" prefWidth="140.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
+                                       <Label layoutX="6.0" layoutY="15.0" text="From :" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+                                       <Label layoutX="6.0" layoutY="55.0" text="To : " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="55.0" />
+                                    </children>
+                                 </AnchorPane>
+                              </center>
+                              <top>
+                                 <Pane prefHeight="28.0" prefWidth="265.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+                                    <children>
+                                       <Label layoutX="2.0" layoutY="6.0" text="Shortest Departure and Destination" textFill="WHITE" />
+                                    </children>
+                                 </Pane>
+                              </top>
+                           </BorderPane>
                            </children>
                         </AnchorPane>
                   </content>

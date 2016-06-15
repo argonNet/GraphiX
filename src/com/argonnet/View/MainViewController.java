@@ -1,5 +1,6 @@
 package com.argonnet.View;
 
+import com.argonnet.Algorythm.Dijkstra;
 import com.argonnet.Algorythm.Kruskal;
 import com.argonnet.Draw.GraphDrawer;
 import com.argonnet.Draw.GraphShapeFactory;
@@ -13,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 
@@ -33,8 +35,13 @@ public class MainViewController implements Initializable{
     @FXML private Spinner<Integer> fieldVertexFrom;
     @FXML private Spinner<Integer> fieldVertexTo;
     @FXML private Spinner<Integer> fieldVertexWeight;
-    @FXML private ComboBox<Constants.PROBLEM_LIST>  whatComboBox;
+    @FXML private ComboBox<Constants.PROBLEMS>  whatComboBox;
     @FXML private ComboBox<Constants.ALGORITHM>  howComboBox;
+
+    @FXML private BorderPane paneShortestPathFromTo;
+    @FXML private Spinner<Integer> fieldVertexShortestPathTo;
+    @FXML private Spinner<Integer> fieldVertexShortestPathFrom;
+
 
     @FXML private Label labelCycleStatus;
 
@@ -47,12 +54,12 @@ public class MainViewController implements Initializable{
      */
     private void setWhatList(){
 
-        whatComboBox.setCellFactory(new Callback<ListView<Constants.PROBLEM_LIST>, ListCell<Constants.PROBLEM_LIST>>() {
+        whatComboBox.setCellFactory(new Callback<ListView<Constants.PROBLEMS>, ListCell<Constants.PROBLEMS>>() {
             @Override
-            public ListCell<Constants.PROBLEM_LIST> call(ListView<Constants.PROBLEM_LIST> param) {
-                return new ListCell<Constants.PROBLEM_LIST>(){
+            public ListCell<Constants.PROBLEMS> call(ListView<Constants.PROBLEMS> param) {
+                return new ListCell<Constants.PROBLEMS>(){
                     @Override
-                    protected void updateItem(Constants.PROBLEM_LIST item, boolean empty) {
+                    protected void updateItem(Constants.PROBLEMS item, boolean empty) {
                         super.updateItem(item,empty);
 
                         setText(Constants.problemListDef.get(item));
@@ -65,6 +72,7 @@ public class MainViewController implements Initializable{
         whatComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             howComboBox.getItems().clear();
             howComboBox.getItems().addAll(Constants.problemAndSoluctionList.get(whatComboBox.getSelectionModel().getSelectedItem()));
+            paneShortestPathFromTo.setVisible((whatComboBox.getSelectionModel().getSelectedItem() == Constants.PROBLEMS.ShortestPath));
         });
 
         whatComboBox.getItems().addAll(Constants.problemListDef.keySet());
@@ -95,8 +103,12 @@ public class MainViewController implements Initializable{
      */
     private void setEdgeFromToSpinnerVal(){
         if(currentGraph != null){
+            //Edge editor
             fieldVertexFrom.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, currentGraph.getVertexCount()));
             fieldVertexTo.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, currentGraph.getVertexCount()));
+            //Shortest path calculation
+            fieldVertexShortestPathFrom.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, currentGraph.getVertexCount()));
+            fieldVertexShortestPathTo.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, currentGraph.getVertexCount()));
         }
     }
 
@@ -155,7 +167,12 @@ public class MainViewController implements Initializable{
                         throw new UnknownHowException();
                 }
 
-
+            case ShortestPath:
+                switch(howComboBox.getSelectionModel().getSelectedItem()){
+                    case Djikstra:
+                        highlightGraph = (new Dijkstra()).CalcShortestPath(
+                                currentGraph,fieldVertexShortestPathFrom.getValue(),fieldVertexShortestPathTo.getValue());
+                }
                 break;
             default :
                 throw new UnknownWhatException();
@@ -200,6 +217,8 @@ public class MainViewController implements Initializable{
         //Init list of problem and solution
         setWhatList();
         setHowList();
+        whatComboBox.getSelectionModel().select(Constants.PROBLEMS.MinimalTree);
+        howComboBox.getSelectionModel().select(Constants.ALGORITHM.Kruskal);
 
         //Setting canvas size to his container
         drawZone.widthProperty().bind(canvasPane.widthProperty());

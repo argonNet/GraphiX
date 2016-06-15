@@ -13,7 +13,7 @@ public class Constants {
     public final static int GRAPH_REF_WIDTH = 1000;
 
 
-    public enum PROBLEM_LIST{
+    public enum PROBLEMS {
         MinimalTree,
         ShortestPath
     }
@@ -23,9 +23,9 @@ public class Constants {
         Djikstra
     }
 
-    public static Map<PROBLEM_LIST,String> problemListDef = new HashMap<PROBLEM_LIST,String>(){{
-        put(Constants.PROBLEM_LIST.MinimalTree,"Minimal Tree");
-        put(PROBLEM_LIST.ShortestPath,"Shortest Path");
+    public static Map<PROBLEMS,String> problemListDef = new HashMap<PROBLEMS,String>(){{
+        put(PROBLEMS.MinimalTree,"Minimal Tree");
+        put(PROBLEMS.ShortestPath,"Shortest Path");
     }};
 
     public static Map<ALGORITHM,String> algoListDef = new HashMap<ALGORITHM,String>(){{
@@ -33,11 +33,11 @@ public class Constants {
         put(ALGORITHM.Djikstra,"Djikstra");
     }};
 
-    public static Map<Constants.PROBLEM_LIST, ArrayList<ALGORITHM>> problemAndSoluctionList = new HashMap<Constants.PROBLEM_LIST, ArrayList<ALGORITHM>>(){{
-        put(Constants.PROBLEM_LIST.MinimalTree, new ArrayList<ALGORITHM>(){{
+    public static Map<PROBLEMS, ArrayList<ALGORITHM>> problemAndSoluctionList = new HashMap<PROBLEMS, ArrayList<ALGORITHM>>(){{
+        put(PROBLEMS.MinimalTree, new ArrayList<ALGORITHM>(){{
             add(ALGORITHM.Kruskal);
         }});
-        put(PROBLEM_LIST.ShortestPath, new ArrayList<ALGORITHM>(){{
+        put(PROBLEMS.ShortestPath, new ArrayList<ALGORITHM>(){{
             add(ALGORITHM.Djikstra);
         }});
     }};
