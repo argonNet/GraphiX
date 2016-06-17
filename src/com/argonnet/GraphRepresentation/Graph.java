@@ -1,6 +1,7 @@
 package com.argonnet.GraphRepresentation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
@@ -13,6 +14,7 @@ public class Graph {
     private ArrayList<Edge> edges;
     private ArrayList<VertexView> vertexViews;
 
+    private final Collection<GraphChangeListener> graphChangeListeners = new ArrayList<GraphChangeListener>();
 
     /**
      * Constructor with the number of vertexes in the graph.
@@ -30,18 +32,27 @@ public class Graph {
     }
 
     /**
-     * Generation of the list of edges
+     * Generation of the list of edges (no-oriented edges)
      */
     private void generateOrderedEdgeList(){
 
         edges = new ArrayList<Edge>();
 
         for(int i = 0; i < matrix.getVertexCount(); i++) {
-            for (int j = 0; j <= i; j++) {
+            for (int j = 0; j <= i; j++) { //We take only the half part of the edges
                 if(matrix.getEdge(i,j) != 0){
                     edges.add(new Edge(i,j,matrix.getEdge(i,j)));
                 }
             }
+        }
+    }
+
+    /**
+     * Launch graph change event
+     */
+    private void fireGraphChanged(){
+        for (GraphChangeListener listner :graphChangeListeners) {
+            listner.graphChange();
         }
     }
 
@@ -51,8 +62,8 @@ public class Graph {
     public void addVertex(){
         matrix.addVertex();
         this.vertexViews.add(new VertexView(matrix.getVertexCount()));
+        fireGraphChanged();
     }
-
 
 
     /**
@@ -100,6 +111,8 @@ public class Graph {
         if(!edgeAlreadyInList){
             edges.add(new Edge(from,to,weight));
         }
+
+        fireGraphChanged();
     }
 
     public int getEdge(int from, int to){
@@ -130,5 +143,20 @@ public class Graph {
         Collections.sort(edges, (e1, e2) -> e1.getWeight() - e2.getWeight());
         return edges;
     }
+
+
+    public void addGraphChangeListener(GraphChangeListener listener) {
+        graphChangeListeners.add(listener);
+    }
+
+    public void removeGraphChangeListener(GraphChangeListener listener) {
+        graphChangeListeners.remove(listener);
+    }
+
+    public GraphChangeListener[] getGraphChangeListeners() {
+        return graphChangeListeners.toArray(new GraphChangeListener[0]);
+    }
+
+
 
 }

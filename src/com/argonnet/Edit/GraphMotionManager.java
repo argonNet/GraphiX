@@ -1,5 +1,6 @@
-package com.argonnet.Draw;
+package com.argonnet.Edit;
 
+import com.argonnet.Draw.GraphDrawer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 
@@ -11,7 +12,9 @@ public class GraphMotionManager {
     private Canvas canvas;
     private GraphDrawer drawer;
 
-    private int currentDraggedVetex;
+    private int currentDraggedVertex;
+
+    private boolean isDraggedAllowed;
 
     /**
      * Class constructor
@@ -21,18 +24,20 @@ public class GraphMotionManager {
         this.drawer = drawer;
         this.canvas = drawer.getCanvas();
 
-        this.currentDraggedVetex = Integer.MIN_VALUE;
+        this.currentDraggedVertex = Integer.MIN_VALUE;
 
         canvas.addEventHandler(MouseEvent.DRAG_DETECTED, e -> {
             findCurrentDraggedVertex(e.getX(),e.getY());
         } );
 
         canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-            this.moveVertexWithMouse(e.getX(),e.getY());
-        } );
+            if(this.isDraggedAllowed()){
+                this.moveVertexWithMouse(e.getX(),e.getY());
+            }
+        });
 
         canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-            this.currentDraggedVetex = Integer.MIN_VALUE;
+            this.currentDraggedVertex = Integer.MIN_VALUE;
         } );
 
     }
@@ -43,7 +48,8 @@ public class GraphMotionManager {
      * @param mouseXPos Position X of the mouse, in the canvas
      * @param mouseYPos Position Y of the mouse, in the canvas
      */
-    private void findCurrentDraggedVertex(double mouseXPos, double mouseYPos){
+    public int findCurrentDraggedVertex(double mouseXPos, double mouseYPos){
+        int vertex = -1;
 
         for(int i = 0; i< drawer.getCurrentGraph().getVertexCount();i++){
 
@@ -53,10 +59,13 @@ public class GraphMotionManager {
             );
 
             if(distanceWithCenter <= GraphDrawer.VERTEX_RADIUS)  {
-                this.currentDraggedVetex = i;
+                this.currentDraggedVertex = i;
+                vertex = i;
                 break; //Optimization of the treatment when we found a vertex we move leave
             }
         }
+
+        return vertex;
     }
 
 
@@ -67,14 +76,21 @@ public class GraphMotionManager {
      */
     private void moveVertexWithMouse(double xPos, double yPos){
 
-        if(this.currentDraggedVetex != Integer.MIN_VALUE) {
+        if(this.currentDraggedVertex != Integer.MIN_VALUE) {
 
-            drawer.getCurrentGraph().getVertexView(currentDraggedVetex).setX(xPos / drawer.getRatioX());
-            drawer.getCurrentGraph().getVertexView(currentDraggedVetex).setY(yPos / drawer.getRatioY());
+            drawer.getCurrentGraph().getVertexView(currentDraggedVertex).setX(xPos / drawer.getRatioX());
+            drawer.getCurrentGraph().getVertexView(currentDraggedVertex).setY(yPos / drawer.getRatioY());
 
             drawer.draw();
         }
     }
 
 
+    public boolean isDraggedAllowed() {
+        return isDraggedAllowed;
+    }
+
+    public void setDraggedAllowed(boolean draggedAllowed) {
+        isDraggedAllowed = draggedAllowed;
+    }
 }

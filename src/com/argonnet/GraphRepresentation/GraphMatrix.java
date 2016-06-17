@@ -8,14 +8,12 @@ import java.util.Arrays;
 public class GraphMatrix {
 
     private int matrix[][];
-    private int vertexCount;
 
     /**
      * Constructor of the Matrix
      * @param nbVertex vertex count in the Graph
      */
     public GraphMatrix(int nbVertex){
-        this.vertexCount = nbVertex;
         this.setMatrix(new int[nbVertex][nbVertex]);
     }
 
@@ -25,23 +23,23 @@ public class GraphMatrix {
      * @param vertex Vertex to explore
      * @return Return true if we find a cycle
      */
-    private boolean checkIfContainCycle(boolean explorationStatus[], int vertex){
+    private boolean dfsPathForCycleDetection(boolean explorationStatus[], int vertex){
         boolean result = false;
-
         explorationStatus[vertex] = true;
 
         //We have an no directed graph then we need only the half of the matrix
-        for(int i = vertex + 1; i < vertexCount; i++){
+        for(int i = vertex + 1; i < this.getVertexCount() && !result; i++){
 
             if( getMatrix()[vertex][i] != 0){ //Check the existence of an edge
                 if(!explorationStatus[i]) {
-                    result = checkIfContainCycle(explorationStatus, i);
+                    result = dfsPathForCycleDetection(explorationStatus, i);
                 }else {
-                    result = true;
+                    return true; //Cycle found we stop to search
                 }
             }
         }
 
+        //If we get there there isn't any cycle
         return result;
     }
 
@@ -50,12 +48,12 @@ public class GraphMatrix {
      * @return True if the graph contain cycle
      */
     public boolean containCycle(){
-        boolean explorationStatus[] = new boolean[vertexCount];
+        boolean explorationStatus[] = new boolean[this.getVertexCount()];
 
         //Initialize the exploration status as not explored (false)
-        for(int i = 0; i < vertexCount; i++) explorationStatus[i] = false;
+        for(int i = 0; i < this.getVertexCount(); i++) explorationStatus[i] = false;
 
-        return checkIfContainCycle(explorationStatus,0);
+        return dfsPathForCycleDetection(explorationStatus,0);
     }
 
     /**
@@ -76,7 +74,6 @@ public class GraphMatrix {
             matrix[this.getVertexCount() - 1][i] = 0;
         }
 
-
     }
 
     public int[][] getMatrix() {
@@ -96,8 +93,14 @@ public class GraphMatrix {
         this.matrix[to][from] = edgeWeight;
     }
 
+	/**
+	 * Return the number of vertex in the current matrix
+	 */
     public int getVertexCount() {
+		//As we always have a square matrix, we only have to check the first dim.
         return matrix.length;
     }
+
+
 
 }

@@ -7,11 +7,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.argonnet.View.MainViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.argonnet.View.MainViewController">
    <right>
       <AnchorPane fx:id="rightPane" prefHeight="740.0" prefWidth="247.0" style="-fx-background-color: darkgrey;" BorderPane.alignment="CENTER">
          <children>
@@ -32,14 +33,14 @@
                                     </AnchorPane>
                                  </center>
                                  <top>
-                                    <Pane  prefHeight="28.0" prefWidth="265.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+                                    <Pane prefHeight="28.0" prefWidth="265.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
                                        <children>
                                           <Label layoutX="31.0" layoutY="6.0" text="Random graph generation" textFill="WHITE" />
                                        </children>
                                     </Pane>
                                  </top>
                               </BorderPane>
-                              <BorderPane layoutX="2" layoutY="130" prefHeight="84.0" prefWidth="223.0" style="-fx-border-color: darkgrey;" AnchorPane.leftAnchor="2.0">
+                              <BorderPane layoutX="2" layoutY="130" prefHeight="86.0" prefWidth="223.0" style="-fx-border-color: darkgrey;" AnchorPane.leftAnchor="2.0">
                                  <center>
                                     <AnchorPane prefHeight="57.0" prefWidth="221.0" BorderPane.alignment="CENTER">
                                        <children>
@@ -55,7 +56,7 @@
                                     </Pane>
                                  </top>
                               </BorderPane>
-                              <BorderPane layoutX="2" layoutY="220.0" prefHeight="188.0" prefWidth="223.0" style="-fx-border-color: darkgrey;" AnchorPane.leftAnchor="2.0">
+                              <BorderPane layoutX="2" layoutY="220.0" prefHeight="270.0" prefWidth="223.0" style="-fx-border-color: darkgrey;" AnchorPane.leftAnchor="2.0">
                                  <center>
                                     <AnchorPane prefHeight="78.0" prefWidth="221.0" BorderPane.alignment="CENTER">
                                        <children>
@@ -64,15 +65,17 @@
                                           <Label layoutX="16.0" layoutY="55.0" text="To" />
                                           <Spinner fx:id="fieldVertexTo" layoutX="95.0" layoutY="54.0" prefHeight="27.0" prefWidth="100.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
                                           <Spinner fx:id="fieldVertexWeight" layoutX="104.0" layoutY="85.0" prefHeight="27.0" prefWidth="100.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="85.0" />
-                                          <Button layoutX="17.0" layoutY="121.0" mnemonicParsing="false" onAction="#addEdgeOnClick" prefHeight="27.0" prefWidth="191.0" text="Add Edge" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+                                          <Button layoutX="17.0" layoutY="120.0" mnemonicParsing="false" onAction="#addEdgeOnClick" prefHeight="27.0" prefWidth="191.0" text="Add Edge" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+                                          <Button layoutX="17.0" layoutY="160.0" mnemonicParsing="false" onAction="#removeEdgeOnClick" prefHeight="27.0" prefWidth="191.0" text="Remove Edge" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
                                           <Label layoutX="15.0" layoutY="90.0" text="Weight" />
+                                           <ToggleButton fx:id="toggleDrawEdgeMode" layoutX="17.0" layoutY="200.0" mnemonicParsing="false" onAction="#drawEdgeModeButtonOnSwitch" text="Draw edge mode" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
                                        </children>
                                     </AnchorPane>
                                  </center>
                                  <top>
                                     <Pane prefHeight="28.0" prefWidth="265.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label layoutX="31.0" layoutY="6.0" text="Add vertex to current graph" textFill="WHITE" />
+                                          <Label layoutX="31.0" layoutY="6.0" text="Edge management" textFill="WHITE" />
                                        </children>
                                     </Pane>
                                  </top>
@@ -84,12 +87,46 @@
                 <TitledPane animated="false" text="Graph Calculation">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ComboBox fx:id="howComboBox" layoutX="75.0" layoutY="50.0" prefWidth="150.0" />
-                              <Button fx:id="buttonCalc" layoutX="45.0" layoutY="96.0" mnemonicParsing="false" onAction="#calcOnClick" prefHeight="27.0" prefWidth="156.0" text="Calculate" />
-                              <ComboBox fx:id="whatComboBox" layoutX="76.0" layoutY="14.0" prefWidth="150.0" />
-                              <Label layoutX="6.0" layoutY="19.0" text="What :" />
-                              <Label layoutX="6.0" layoutY="55.0" text="How : " />
+						<children>   
+							<BorderPane layoutX="2" layoutY="8.0" prefHeight="160.0" prefWidth="223.0" style="-fx-border-color: darkgrey;" AnchorPane.leftAnchor="2.0">
+								<center>
+									<AnchorPane prefHeight="78.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+										<children>
+											<ComboBox fx:id="whatComboBox" layoutX="56.0" layoutY="10.0" prefHeight="27.0" prefWidth="140.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0" />
+											<ComboBox fx:id="howComboBox" layoutX="75.0" layoutY="50.0" prefHeight="27.0" prefWidth="140.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
+											<Button fx:id="buttonCalc" layoutX="17.0" layoutY="90.0" mnemonicParsing="false" onAction="#calcOnClick" prefHeight="27.0" prefWidth="191.0" text="Calculate" />
+											<Label layoutX="6.0" layoutY="15.0" text="What :" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+											<Label layoutX="6.0" layoutY="55.0" text="How : " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="55.0" />
+										</children>
+									</AnchorPane>
+								</center>
+								<top>
+									<Pane prefHeight="28.0" prefWidth="265.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+										<children>
+											<Label layoutX="16.0" layoutY="6.0" text="Choose problem and algorithm" textFill="WHITE" />
+										</children>
+									</Pane>
+								</top>
+							</BorderPane>
+                           <BorderPane fx:id="paneShortestPathFromTo" layoutX="2" layoutY="180.0" prefHeight="120.0" prefWidth="223.0" style="-fx-border-color: darkgrey;" AnchorPane.leftAnchor="2.0">
+                              <center>
+                                 <AnchorPane prefHeight="220.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                       <Spinner fx:id="fieldVertexShortestPathFrom" layoutX="56.0" layoutY="10.0" prefHeight="27.0" prefWidth="140.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0" />
+                                       <Spinner fx:id="fieldVertexShortestPathTo" layoutX="75.0" layoutY="50.0" prefHeight="27.0" prefWidth="140.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
+                                       <Label layoutX="6.0" layoutY="15.0" text="From :" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+                                       <Label layoutX="6.0" layoutY="55.0" text="To : " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="55.0" />
+                                    </children>
+                                 </AnchorPane>
+                              </center>
+                              <top>
+                                 <Pane prefHeight="28.0" prefWidth="265.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+                                    <children>
+                                       <Label layoutX="2.0" layoutY="6.0" text="Shortest Departure and Destination" textFill="WHITE" />
+                                    </children>
+                                 </Pane>
+                              </top>
+                           </BorderPane>
                            </children>
                         </AnchorPane>
                   </content>
@@ -106,4 +143,11 @@
          </children>
       </Pane>
    </center>
+   <bottom>
+      <AnchorPane prefHeight="33.0" prefWidth="919.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="labelCycleStatus" layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="208.0" text="-" />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>

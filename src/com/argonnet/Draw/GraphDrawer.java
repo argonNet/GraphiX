@@ -23,12 +23,8 @@ public class GraphDrawer {
     private final static int LABEL_WIDTH = 30;
     private final static int LABEL_HEIGHT = 30;
 
-
-
     private Canvas canvas;
     private GraphicsContext gc;
-
-    private GraphMotionManager motionManager;
 
     private Graph currentGraph;
     private GraphMatrix highlightedGraph;
@@ -40,8 +36,6 @@ public class GraphDrawer {
     public GraphDrawer(Canvas canvas){
         this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
-
-        motionManager = new GraphMotionManager(this);
 
         //Define text default params for this graphics context
         gc.setTextAlign(TextAlignment.CENTER);
@@ -70,6 +64,8 @@ public class GraphDrawer {
      * Draw all the vertexes of the graph
      */
     private void drawEdges(){
+
+        gc.setFont(new Font(gc.getFont().getFamily(), 16));
 
         for(int i = 0; i < currentGraph.getVertexCount(); i++){
             for(int j = 0; j <= i; j++){
@@ -166,6 +162,20 @@ public class GraphDrawer {
         drawVertexes();
     }
 
+
+    public void drawWithLine(int vertexFrom, double xPos, double yPos){
+        gc.clearRect(0,0,gc.getCanvas().getWidth(),gc.getCanvas().getHeight());
+
+        drawEdges();
+
+        gc.setStroke(Color.rgb(0,0,0));
+        gc.strokeLine(
+                currentGraph.getVertexView(vertexFrom).getX() * getRatioX(),
+                currentGraph.getVertexView(vertexFrom).getY() * getRatioY(),
+                xPos,yPos);
+
+        drawVertexes();
+    }
 
 
     public Graph getCurrentGraph() {
