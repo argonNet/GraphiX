@@ -4,9 +4,12 @@ import com.argonnet.Algorythm.Dijkstra;
 import com.argonnet.Algorythm.Kruskal;
 import com.argonnet.Draw.GraphDrawer;
 import com.argonnet.Draw.GraphShapeFactory;
+import com.argonnet.Edit.GraphEdgeViusalEditionManager;
+import com.argonnet.Edit.GraphMotionManager;
 import com.argonnet.Exception.UnknownHowException;
 import com.argonnet.Exception.UnknownWhatException;
 import com.argonnet.GraphRepresentation.Graph;
+import com.argonnet.GraphRepresentation.GraphChangeListener;
 import com.argonnet.GraphRepresentation.GraphMatrix;
 import com.argonnet.Utils.Constants;
 import javafx.fxml.FXML;
@@ -24,7 +27,7 @@ import java.util.ResourceBundle;
 /**
  * Controller used to manage the main view of the application.
  */
-public class MainViewController implements Initializable{
+public class MainViewController implements Initializable, GraphChangeListener{
 
     @FXML private Pane canvasPane;
     @FXML private Canvas drawZone;
@@ -47,7 +50,11 @@ public class MainViewController implements Initializable{
 
     private GraphMatrix highlightGraph;
     private Graph currentGraph;
+
     private GraphDrawer currentGraphDrawer;
+    private GraphMotionManager motionManager;
+    private GraphEdgeViusalEditionManager visualEditor;
+
 
     /**
      * Initialize the list of problem that could be solved
@@ -140,6 +147,7 @@ public class MainViewController implements Initializable{
     @FXML private void generateGraphOnClick(){
         highlightGraph = null;
         currentGraph = new Graph(fieldVertexNumber.getValue());
+        currentGraph.addGraphChangeListener(this);
         currentGraph.generateRandomGraph(10);
         GraphShapeFactory.setVertexPosition(currentGraph);
 
@@ -187,13 +195,8 @@ public class MainViewController implements Initializable{
      */
     @FXML private void addVertexOnClick(){
         if(currentGraph != null){
-            highlightGraph = null;
-            currentGraphDrawer.setHighlightedGraph(highlightGraph);
             currentGraph.addVertex();
-            currentGraphDrawer.draw();
-
             setEdgeFromToSpinnerVal();
-            setCurrentGraphCycleStatus();
         }
     }
 
@@ -203,8 +206,6 @@ public class MainViewController implements Initializable{
     @FXML private void addEdgeOnClick(){
         if(currentGraph != null){
             currentGraph.setEdge(fieldVertexFrom.getValue()  - 1,fieldVertexTo.getValue() - 1,fieldVertexWeight.getValue());
-            currentGraphDrawer.draw();
-            setCurrentGraphCycleStatus();
         }
     }
 
@@ -214,8 +215,6 @@ public class MainViewController implements Initializable{
     @FXML private void removeEdgeOnClick(){
         if(currentGraph != null){
             currentGraph.setEdge(fieldVertexFrom.getValue()  - 1,fieldVertexTo.getValue() - 1,0);
-            currentGraphDrawer.draw();
-            setCurrentGraphCycleStatus();
         }
     }
 
@@ -224,9 +223,9 @@ public class MainViewController implements Initializable{
      */
     @FXML private  void drawEdgeModeButtonOnSwitch(){
         if(toggleDrawEdgeMode.isSelected()){
-            currentGraphDrawer.EnableEdgeCreation();
+            visualEditor.EnableEdgeCreation();
         }else{
-            currentGraphDrawer.DisableEdgeCreation();
+            visualEditor.DisableEdgeCreation();
         }
     }
 
@@ -247,9 +246,22 @@ public class MainViewController implements Initializable{
         drawZone.heightProperty().bind(canvasPane.heightProperty());
 
         currentGraphDrawer = new GraphDrawer(drawZone);
+        motionManager = new GraphMotionManager(currentGraphDrawer);
+        visualEditor = new GraphEdgeViusalEditionManager(currentGraphDrawer,motionManager);
+
+        visualEditor.DisableEdgeCreation();
 
         drawZone.widthProperty().addListener(observable -> reDraw());
         drawZone.heightProperty().addListener(observable -> reDraw());
     }
 
+
+    @Override
+    public void graphChange() {
+        highlightGraph = null;
+        currentGraphDrawer.setHighlightedGraph(highlightGraph);
+
+        currentGraphDrawer.draw();
+        setCurrentGraphCycleStatus();
+    }
 }

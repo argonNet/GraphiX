@@ -1,6 +1,7 @@
 package com.argonnet.GraphRepresentation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
@@ -13,6 +14,7 @@ public class Graph {
     private ArrayList<Edge> edges;
     private ArrayList<VertexView> vertexViews;
 
+    private final Collection<GraphChangeListener> graphChangeListeners = new ArrayList<GraphChangeListener>();
 
     /**
      * Constructor with the number of vertexes in the graph.
@@ -46,11 +48,21 @@ public class Graph {
     }
 
     /**
+     * Launch graph change event
+     */
+    private void fireGraphChanged(){
+        for (GraphChangeListener listner :graphChangeListeners) {
+            listner.graphChange();
+        }
+    }
+
+    /**
      * Add a new vertex to the current graph
      */
     public void addVertex(){
         matrix.addVertex();
         this.vertexViews.add(new VertexView(matrix.getVertexCount()));
+        fireGraphChanged();
     }
 
 
@@ -99,6 +111,8 @@ public class Graph {
         if(!edgeAlreadyInList){
             edges.add(new Edge(from,to,weight));
         }
+
+        fireGraphChanged();
     }
 
     public int getEdge(int from, int to){
@@ -125,5 +139,20 @@ public class Graph {
         Collections.sort(edges, (e1, e2) -> e1.getWeight() - e2.getWeight());
         return edges;
     }
+
+
+    public void addGraphChangeListener(GraphChangeListener listener) {
+        graphChangeListeners.add(listener);
+    }
+
+    public void removeGraphChangeListener(GraphChangeListener listener) {
+        graphChangeListeners.remove(listener);
+    }
+
+    public GraphChangeListener[] getGraphChangeListeners() {
+        return graphChangeListeners.toArray(new GraphChangeListener[0]);
+    }
+
+
 
 }

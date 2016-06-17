@@ -10,9 +10,7 @@ import javafx.stage.Stage;
 /**
  * Application to solve graph problem
  */
-//TODO - Argon - 10.06.2016 : Use the user number in the algorythm and do the minus 1 in the GraphMatrix class.
-//TODO - Argon - 16.06.2016 : Refresh cycle on mouse edge edition
-//TODO - Argon - 16.96.2016 : Clean highlighted graph on draw edge
+//TODO - Argon - 10.06.2016 : EVENTUALLY - Use the user number in the algorythm and do the minus 1 in the GraphMatrix class.
 
 public class GraphiXApp extends Application {
 

@@ -23,13 +23,8 @@ public class GraphDrawer {
     private final static int LABEL_WIDTH = 30;
     private final static int LABEL_HEIGHT = 30;
 
-
-
     private Canvas canvas;
     private GraphicsContext gc;
-
-    private GraphMotionManager motionManager;
-    private GraphEdgeViusalEditionManager visualEditor;
 
     private Graph currentGraph;
     private GraphMatrix highlightedGraph;
@@ -41,10 +36,6 @@ public class GraphDrawer {
     public GraphDrawer(Canvas canvas){
         this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
-
-        motionManager = new GraphMotionManager(this);
-        visualEditor = new GraphEdgeViusalEditionManager(this,motionManager);
-        visualEditor.DisableEdgeCreation();
 
         //Define text default params for this graphics context
         gc.setTextAlign(TextAlignment.CENTER);
@@ -176,6 +167,8 @@ public class GraphDrawer {
         gc.clearRect(0,0,gc.getCanvas().getWidth(),gc.getCanvas().getHeight());
 
         drawEdges();
+
+        gc.setStroke(Color.rgb(0,0,0));
         gc.strokeLine(
                 currentGraph.getVertexView(vertexFrom).getX() * getRatioX(),
                 currentGraph.getVertexView(vertexFrom).getY() * getRatioY(),
@@ -205,11 +198,4 @@ public class GraphDrawer {
         return canvas;
     }
 
-    public void EnableEdgeCreation(){
-        this.visualEditor.EnableEdgeCreation();
-    }
-
-    public void DisableEdgeCreation(){
-        this.visualEditor.DisableEdgeCreation();
-    }
 }

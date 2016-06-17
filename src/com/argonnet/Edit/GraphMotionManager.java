@@ -1,5 +1,6 @@
-package com.argonnet.Draw;
+package com.argonnet.Edit;
 
+import com.argonnet.Draw.GraphDrawer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 

@@ -1,9 +1,8 @@
-package com.argonnet.Draw;
+package com.argonnet.Edit;
 
+import com.argonnet.Draw.GraphDrawer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 
@@ -18,10 +17,11 @@ public class GraphEdgeViusalEditionManager {
     private GraphDrawer drawer;
     private GraphMotionManager motionManager;
 
-
     private boolean isEnable;
     private int newEdgeFrom;
     private int newEdgeTo;
+
+
 
     /**
      * Class constructor
@@ -55,9 +55,9 @@ public class GraphEdgeViusalEditionManager {
                 if (this.newEdgeTo != -1 && this.newEdgeFrom != -1) {
                     int weight = askEdgeWeight(this.newEdgeFrom, this.newEdgeTo);
                     drawer.getCurrentGraph().setEdge(this.newEdgeFrom, this.newEdgeTo, weight == -1 ? drawer.getCurrentGraph().getEdge(this.newEdgeFrom, this.newEdgeTo) : weight);
+
                 }
                 drawer.draw();
-
 
                 this.newEdgeFrom = -1;
                 this.newEdgeTo = -1;
