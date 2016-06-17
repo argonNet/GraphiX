@@ -20,6 +20,7 @@ public class Constants {
 
     public enum ALGORITHM {
         Kruskal,
+        Prim,
         Djikstra
     }
 
@@ -30,12 +31,14 @@ public class Constants {
 
     public static Map<ALGORITHM,String> algoListDef = new HashMap<ALGORITHM,String>(){{
         put(ALGORITHM.Kruskal,"Kruskal");
+        put(ALGORITHM.Prim,"Prim");
         put(ALGORITHM.Djikstra,"Djikstra");
     }};
 
     public static Map<Constants.PROBLEM_LIST, ArrayList<ALGORITHM>> problemAndSoluctionList = new HashMap<Constants.PROBLEM_LIST, ArrayList<ALGORITHM>>(){{
         put(Constants.PROBLEM_LIST.MinimalTree, new ArrayList<ALGORITHM>(){{
             add(ALGORITHM.Kruskal);
+            add(ALGORITHM.Prim);
         }});
         put(PROBLEM_LIST.ShortestPath, new ArrayList<ALGORITHM>(){{
             add(ALGORITHM.Djikstra);

@@ -106,6 +106,9 @@ public class Graph {
         return this.matrix.getEdge(from,to);
     }
 
+    public ArrayList<VertexView> getVertexViewList(){
+        return this.vertexViews;
+    }
     public int getVertexCount() {
         return this.matrix.getVertexCount();
     }
@@ -113,6 +116,7 @@ public class Graph {
     public VertexView getVertexView(int vertexNumber){
         return this.vertexViews.get(vertexNumber);
     }
+
 
     public GraphMatrix getMatrix(){
         return this.matrix;

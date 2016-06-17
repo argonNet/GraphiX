@@ -1,6 +1,7 @@
 package com.argonnet.View;
 
 import com.argonnet.Algorythm.Kruskal;
+import com.argonnet.Algorythm.Prim;
 import com.argonnet.Draw.GraphDrawer;
 import com.argonnet.Draw.GraphShapeFactory;
 import com.argonnet.Exception.UnknownHowException;
@@ -134,6 +135,9 @@ public class MainViewController implements Initializable{
                 switch(howComboBox.getSelectionModel().getSelectedItem()){
                     case Kruskal:
                         highlightGraph = (new Kruskal()).CalcMinimalTree(currentGraph,0);
+                        break;
+                    case Prim:
+                        highlightGraph = (new Prim()).CalcMinimalTree(currentGraph,0);
                         break;
                     default :
                         throw new UnknownHowException();
