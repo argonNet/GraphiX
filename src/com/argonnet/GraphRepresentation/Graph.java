@@ -119,9 +119,14 @@ public class Graph {
         return this.matrix.getEdge(from,to);
     }
 
+    /**
+     * Get the list of vertexes of the graph
+     * @return List of vertexes (VertexView)
+     */
     public ArrayList<VertexView> getVertexViewList(){
         return this.vertexViews;
     }
+
     public int getVertexCount() {
         return this.matrix.getVertexCount();
     }
