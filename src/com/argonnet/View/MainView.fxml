@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.argonnet.View.MainViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.argonnet.View.MainViewController">
    <right>
       <AnchorPane fx:id="rightPane" prefHeight="740.0" prefWidth="247.0" style="-fx-background-color: darkgrey;" BorderPane.alignment="CENTER">
          <children>
@@ -146,7 +146,9 @@
    <bottom>
       <AnchorPane prefHeight="33.0" prefWidth="919.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="labelCycleStatus" layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="208.0" text="-" />
+            <Label fx:id="labelCycleStatus" layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="173.0" text="-" />
+            <Label fx:id="labelCostCaption" layoutX="210.0" layoutY="8.0" text="Coût total : " />
+            <Label fx:id="labelCost" layoutX="272.0" layoutY="8.0" text="-" />
          </children>
       </AnchorPane>
    </bottom>

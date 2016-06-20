@@ -1,6 +1,7 @@
 package com.argonnet.View;
 
 import com.argonnet.Algorythm.Dijkstra;
+import com.argonnet.Algorythm.IMinimalTree;
 import com.argonnet.Algorythm.Kruskal;
 import com.argonnet.Algorythm.Prim;
 import com.argonnet.Draw.GraphDrawer;
@@ -49,8 +50,12 @@ public class MainViewController implements Initializable, GraphChangeListener{
 
     @FXML private Label labelCycleStatus;
 
+    @FXML private Label labelCostCaption;
+    @FXML private Label labelCost;
+
     private GraphMatrix highlightGraph;
     private Graph currentGraph;
+    private Integer treeCost = null;
 
     private GraphDrawer currentGraphDrawer;
     private GraphMotionManager motionManager;
@@ -143,6 +148,24 @@ public class MainViewController implements Initializable, GraphChangeListener{
     }
 
     /**
+     * Display the cost of the current highlighted tree
+     * @param cost new cost value
+     */
+    private void setCost(Integer cost){
+        treeCost = cost;
+
+        if(treeCost == null){
+            labelCostCaption.setVisible(false);
+            labelCost.setVisible(false);
+        }else{
+            labelCostCaption.setVisible(true);
+            labelCost.setVisible(true);
+            labelCost.setText(treeCost.toString());
+        }
+
+    }
+
+    /**
      * Generating a new random graph
      */
     @FXML private void generateGraphOnClick(){
@@ -165,19 +188,27 @@ public class MainViewController implements Initializable, GraphChangeListener{
      */
     @FXML private void calcOnClick() throws Exception{
 
+        setCost(null);
+
         switch (whatComboBox.getSelectionModel().getSelectedItem()){
             case MinimalTree:
+                IMinimalTree minimalTree;
 
                 switch(howComboBox.getSelectionModel().getSelectedItem()){
                     case Kruskal:
-                        highlightGraph = (new Kruskal()).CalcMinimalTree(currentGraph,0);
+                        minimalTree = new Kruskal();
                         break;
                     case Prim:
-                        highlightGraph = (new Prim()).CalcMinimalTree(currentGraph,0);
+                        minimalTree = new Prim();
                         break;
                     default :
                         throw new UnknownHowException();
                 }
+
+                highlightGraph = minimalTree.CalcMinimalTree(currentGraph,0);
+                setCost(minimalTree.getCost());
+
+                break;
 
             case ShortestPath:
                 switch(howComboBox.getSelectionModel().getSelectedItem()){
@@ -263,6 +294,7 @@ public class MainViewController implements Initializable, GraphChangeListener{
     @Override
     public void graphChange() {
         highlightGraph = null;
+        setCost(null);
         currentGraphDrawer.setHighlightedGraph(highlightGraph);
 
         currentGraphDrawer.draw();

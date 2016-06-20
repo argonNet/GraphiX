@@ -14,6 +14,18 @@ import java.util.PriorityQueue;
  * Created by Aoi on 13/06/2016.
  */
 public class Prim implements IMinimalTree {
+
+
+    private int cost = 0;
+
+    /**
+     * Allow to get the cost of the calculated minimal tree
+     * @return
+     */
+    public int getCost(){
+        return cost;
+    }
+
     /**
      * Prim method to get a minimal tree
      * NOTE: The graph must be UNDIRECTED in order to work
@@ -23,10 +35,9 @@ public class Prim implements IMinimalTree {
      * @param root  Root vertex number to start the tree
      * @return Partial graph that represent the minimal tree
      */
-    @Override
     public GraphMatrix CalcMinimalTree(Graph graph, int root) {
         GraphMatrix resultObj = new GraphMatrix(graph.getVertexCount());
-        int cost = 0;
+        cost = 0;
         //Step 1: Choose one Vertex and begin to make a tree T with only this one
         //Init unvisited Vertex list, remove the starting vertex
         PriorityQueue<Edge> edgeAvailables = new PriorityQueue<>();

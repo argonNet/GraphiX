@@ -9,6 +9,12 @@ import com.argonnet.GraphRepresentation.GraphMatrix;
 public interface IMinimalTree {
 
     /**
+     * Allow to get the cost of the calculated minimal tree
+     * @return
+     */
+    int getCost();
+
+    /**
      * Calc a minimal tree (partial graph), from a node
      * @param graph Base graph to proceed
      * @param root Root vertex number to start the tree
